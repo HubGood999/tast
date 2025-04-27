@@ -1,13 +1,13 @@
 local Theme = {
-    PrimaryBackgroundColor = Color3.fromRGB(20, 30, 50),
-    SecondaryBackgroundColor = Color3.fromRGB(30, 45, 70),
-    TertiaryBackgroundColor = Color3.fromRGB(50, 75, 120),
-    TabBackgroundColor = Color3.fromRGB(40, 60, 90),
-    PrimaryTextColor = Color3.fromRGB(200, 230, 255),
-    SecondaryTextColor = Color3.fromRGB(170, 210, 255),
-    PrimaryColor = Color3.fromRGB(100, 170, 255),
-    ScrollingBarImageColor = Color3.fromRGB(80, 120, 160),
-    Line = Color3.fromRGB(60, 90, 130)
+    PrimaryBackgroundColor = Color3.fromRGB(15, 25, 45),
+    SecondaryBackgroundColor = Color3.fromRGB(25, 40, 65),
+    TertiaryBackgroundColor = Color3.fromRGB(45, 65, 100), 
+    TabBackgroundColor = Color3.fromRGB(35, 55, 85),    
+    PrimaryTextColor = Color3.fromRGB(180, 210, 250),       
+    SecondaryTextColor = Color3.fromRGB(150, 190, 230), 
+    PrimaryColor = Color3.fromRGB(80, 150, 235),          
+    ScrollingBarImageColor = Color3.fromRGB(70, 110, 150), 
+    Line = Color3.fromRGB(50, 80, 110)                     
 }
 
 
