@@ -34,6 +34,7 @@ local Library = {
 		Toggle = {},
 		Slider = {},
 		TextBox = {},
+        TextBoxV2 = {},
 		Keybind = {},
 		Dropdown = {},	
 		ColorPicker = {},
@@ -56,7 +57,8 @@ local Modules = {
 	Slider = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Slider", true))(),
 	Keybind = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Keybind", true))(),
 	TextBox = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/TextBox", true))(),
-	Navigation = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Navigation", true))(),
+	TextBoxV2 = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/TextBox", true))(),
+    Navigation = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Navigation", true))(),
 	ColorPicker = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/ColorPicker", true))(),
 }
 
@@ -234,6 +236,9 @@ function Library:createAddons(text, imageButton, scrollingFrame, additionalAddon
 		
 		createTextBox = function(self, options)
 			Library:createTextBox(options, Addon.Inner, scrollingFrame)
+		end,
+		createTextBoxV2 = function(self, options)
+			Library:createTextBoxV2(options, Addon.Inner, scrollingFrame)
 		end,
 	}
 
@@ -706,7 +711,8 @@ function Library:createSlider(options: table, parent, scrollingFrame)
 	local TextLabel = Slider.TextButton.TextLabel
 	local ImageButton = TextLabel.ImageButton
 	local TextBox = TextLabel.TextBox
-
+	local TextBoxv2 = TextLabel.TextBoxv2
+    
 	local Line = Slider.Line
 	local TextButton = Slider.TextButton
 	local Fill = Line.Fill
@@ -731,6 +737,8 @@ function Library:createSlider(options: table, parent, scrollingFrame)
 		callback = {Value = options.callback, ExpectedType = "function"},
 		Line = {Value = Line, ExpectedType = "Instance"},
 		TextBox = {Value = TextLabel.TextBox, ExpectedType = "Instance"},
+        TextBoxv2 = {Value = TextLabel.TextBox, ExpectedType = "Instance"},
+
 		Library = {Value = Library, ExpectedType = "table"},
 		CurrentValueLabel = {Value = CurrentValueLabel, ExpectedType = "Instance"},
 		Connections = {Value = Connections, ExpectedType = "table"},
@@ -738,6 +746,11 @@ function Library:createSlider(options: table, parent, scrollingFrame)
 		autoSizeTextBox = {Value = function()
 			local TextBoundsX = math.clamp(TextLabel.TextBox.TextBounds.X + 14, 10, 200)
 			Utility:tween(TextLabel.TextBox, {Size = UDim2.fromOffset(TextBoundsX, 20)}, 0.2):Play()
+		end, ExpectedType = "function"},
+
+		autoSizeTextBoxv2 = {Value = function()
+			local TextBoundsX = math.clamp(TextLabel.TextBoxv2.TextBounds.X + 14, 10, 200)
+			Utility:tween(TextLabel.TextBoxv2, {Size = UDim2.fromOffset(TextBoundsX, 20)}, 0.2):Play()
 		end, ExpectedType = "function"},
 
 		updateFill = {Value = function(sizeX)
@@ -764,6 +777,8 @@ function Library:createSlider(options: table, parent, scrollingFrame)
 		{object = ImageButton, property = "ImageColor3", theme = {"SecondaryTextColor"}},
 		{object = TextBox, property = "BackgroundColor3", theme = {"SecondaryBackgroundColor"}},
 		{object = TextBox, property = "TextColor3", theme = {"SecondaryTextColor"}},
+		{object = TextBoxv2, property = "BackgroundColor3", theme = {"SecondaryBackgroundColor"}},
+		{object = TextBoxv2, property = "TextColor3", theme = {"SecondaryTextColor"}},
 		{object = CurrentValueLabel, property = "TextColor3", theme = {"TertiaryBackgroundColor"}},
 		{object = CurrentValueLabel, property = "BackgroundColor3", theme = {"PrimaryColor"}},
 		{object = InnerCircle, property = "BackgroundColor3", theme = {"TertiaryBackgroundColor"}},
@@ -952,6 +967,7 @@ function Library:createDropdown(options: table, parent, scrollingFrame)
 	local Inner = List.Inner
 	local DropButtons = Inner.ScrollingFrame
 	local Search = Inner.TextBox
+	local SearchV2 = Inner.TextBoxV2
 
 	-- Auto size ScrollingFrame and List
 	DropButtons.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
@@ -1324,7 +1340,69 @@ function Library:createTextBox(options: table, parent, scrollingFrame)
 		end,
 	})
 end
+function Library:createTextBoxV2(options: table, parent, scrollingFrame)
+	Utility:validateOptions(options, {
+		text = {Default = "TextboxV2", ExpectedType = "string"},
+		default = {Default = "", ExpectedType = "string"},
+		callback = {Default = function() end, ExpectedType = "function"},
+	})
+	
+	scrollingFrame = self.ScrollingFrame or scrollingFrame
+	
+	local TextBoxV2 = Assets.Elements.TextBoxV2:Clone()
+	TextBoxV2.Visible = true
+	TextBoxV2.Parent = parent or self.Section
 
+	local TextLabel = TextBoxV2.TextLabel
+	TextLabel.Text = options.text
+	
+	local ImageButton = TextLabel.ImageButton
+	
+	local Box = TextLabel.TextBoxV2
+	Box.Text = options.default
+
+	local Context = Utility:validateContext({
+		default = {Value = options.default, ExpectedType = "string"},
+		callback = {Value = options.callback, ExpectedType = "function"},
+		TextBoxV2= {Value = Box, ExpectedType = "Instance"},
+
+		autoSizeTextBoxV2 = {Value = function()
+			local TextBoundsX = math.clamp(Box.TextBounds.X + 14, 0, 100)
+			Utility:tween(Box, {Size = UDim2.fromOffset(TextBoundsX, 20)}, 0.2):Play()
+		end, ExpectedType = "function"}
+	})
+
+	local TextBoxV2 = Modules.TextBoxV2.new(Context)
+	TextBoxV2:handleTextBoxV2()
+	
+	Theme:registerToObjects({
+		{object = TextLabel, property = "TextColor3", theme = {"SecondaryTextColor"}},
+		{object = Box, property = "TextColor3", theme = {"SecondaryTextColor"}},
+		{object = Box, property = "BackgroundColor3", theme = {"SecondaryBackgroundColor"}},
+	})
+
+	shared.Flags.TextBoV2x[options.text] = {
+		getText = function(self)
+			return Box.Text
+		end,
+
+		updateText = function(self, options: table)
+			Box.Text = options.text or ""
+			Context.callback(Box.Text)
+		end,
+	}
+
+	return self:createAddons(options.text, ImageButton, scrollingFrame, {
+		getText = function(self)
+			return Box.Text
+		end,
+
+		updateText = function(self, options: table)
+			Box.Text = options.text or ""
+			Context.callback(Box.Text)
+		end,
+	})
+end
 -- Later put this into a module, but this is fine if it's put here anyways.
 local ChildRemoved = false
 function Library:notify(options: table)
@@ -1473,6 +1551,7 @@ function Library:createManager(options: table)
 			Keybind = {},
 			Slider = {},
 			TextBox = {},
+			TextBoxV2 = {},
 			ColorPicker = {},
 		}
 	
@@ -1499,7 +1578,9 @@ function Library:createManager(options: table)
 				if elementType == "TextBox" and typeof(addon) == "table" and addon.getText then
 					SavedData.TextBox[elementName] = {text = addon:getText()}
 				end
-	
+				if elementType == "TextBox" and typeof(addon) == "table" and addon.getText then
+					SavedData.TextBoxV2[elementName] = {text = addon:getText()}
+				end
 				if not table.find(Excluded, elementName) and elementType == "ColorPicker" and typeof(addon) == "table" and addon.getColor then
 					SavedData.ColorPicker[elementName] = {color = {addon:getColor().R * 255, addon:getColor().G * 255, addon:getColor().B * 255}}
 				end
@@ -1551,7 +1632,9 @@ function Library:createManager(options: table)
 				if elementType == "TextBox" and decoded.TextBox[elementName] then
 					shared.Flags.TextBox[elementName]:updateText({text = decoded.TextBox[elementName].text})
 				end
-	
+				if elementType == "TextBoxV2" and decoded.TextBox[elementName] then
+					shared.Flags.TextBoxV2[elementName]:updateText({text = decoded.TextBoxV2[elementName].text})
+				end
 				if elementType == "ColorPicker" and decoded.ColorPicker[elementName] then
 					shared.Flags.ColorPicker[elementName]:updateColor({color = Color3.fromRGB(unpack(decoded.ColorPicker[elementName].color))})
 				end
@@ -1678,6 +1761,7 @@ function Library:createManager(options: table)
 	end
 
 	local configName = SaveManager:createTextBox({text = "Config Name"})
+
 	local jsons = getJsons()
 
 	SaveManager:createButton({text = "Create Config", callback = function()
@@ -1689,7 +1773,20 @@ function Library:createManager(options: table)
 			shared.Flags.Dropdown["Configs"]:updateList({list = getJsons(), default = {shared.Flags.Dropdown["Configs"]:getValue()}})
 		end
 	end})
-	
+	local configNameV2 = SaveManager:createTextBoxV2({text = "Config Name"})
+    
+	local jsons = getJsons()
+
+	SaveManager:createButton({text = "Create Config", callback = function()
+		local SavedData = getSavedData()
+		local encoded = game:GetService("HttpService"):JSONEncode(SavedData)
+		writefile(options.folderName .. "/" .. configNameV2:getText() .. ".json", encoded)
+		
+		if shared.Flags.Dropdown["Configs"] then
+			shared.Flags.Dropdown["Configs"]:updateList({list = getJsons(), default = {shared.Flags.Dropdown["Configs"]:getValue()}})
+		end
+	end})
+
 	local Configs = SaveManager:createDropdown({text = "Configs", list = jsons})
 
 	SaveManager:createButton({text = "Save/Overwrite Config", callback = function()
