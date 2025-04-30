@@ -322,15 +322,21 @@ function Library:createTab(options: table)
 	})
 
 	-- Change tab size depending on Library.tabSizeX, maybe make resizer for tabs later
-	if _G.tabSizeX then
-		repeat task.wait(0.1)
-			Background.Tabs.Size = UDim2.new(0, 72, 1, 0)
-			Background.Pages.Size = UDim2.new(1, -72, 1, 0)
-		until not _G.tabSizeX
-	else
-		Background.Tabs.Size = UDim2.new(0, Library.tabSizeX, 1, 0)
-		Background.Pages.Size = UDim2.new(1, -Library.tabSizeX, 1, 0)
-	end
+    spawn(function()
+        while task.wait() do
+            pcall(function()
+				if _G.tabSizeX then
+					repeat task.wait(0.1)
+						Background.Tabs.Size = UDim2.new(0, 72, 1, 0)
+						Background.Pages.Size = UDim2.new(1, -72, 1, 0)
+					until not _G.tabSizeX
+				else
+					Background.Tabs.Size = UDim2.new(0, Library.tabSizeX, 1, 0)
+					Background.Pages.Size = UDim2.new(1, -Library.tabSizeX, 1, 0)
+				end
+			end)
+		end
+	end)
 	local ScrollingFrame = Background.Tabs.Frame.ScrollingFrame
 
 	local Tab = Assets.Tabs.Tab:Clone()
