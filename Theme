@@ -1,4 +1,4 @@
-
+local Theme = {}
 if getgenv().Theme == "Red" then
     Theme = {
         PrimaryBackgroundColor = Color3.fromRGB(45, 15, 15),
