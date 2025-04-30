@@ -634,7 +634,7 @@ function Library:createToggle(options: table, parent, scrollingFrame)
 
 	local function tweenToggleAssets(backgroundColor: Color3, circleColor: Color3, anchorPoint: Vector2, position: UDim2)
 		Utility:tween(Background, {BackgroundColor3 = backgroundColor}, 0.5):Play()
-		Utility:tween(Circle, {BackgroundColor3 = circleColor, AnchorPoint = anchorPoint, Position = position}, 0.2):Play()
+		Utility:tween(Circle, {BackgroundColor3 = circleColor, AnchorPoint = anchorPoint, Position = position}, 1):Play()
 	end
 	
 	local circleOn = false
