@@ -1,4 +1,3 @@
-local Theme = {}
 
 if getgenv().Theme == "Red" then
     Theme = {
