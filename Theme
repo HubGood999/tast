@@ -1,5 +1,5 @@
 local Theme = {}
-if getgenv().Theme == "Red" then
+if getgenv().Theme == "Red" then -- >> Theme by GPT
     Theme = {
         PrimaryBackgroundColor = Color3.fromRGB(45, 15, 15),
         SecondaryBackgroundColor = Color3.fromRGB(65, 25, 25),
