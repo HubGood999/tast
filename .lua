@@ -322,10 +322,11 @@ function Library:createTab(options: table)
 	})
 
 	-- Change tab size depending on Library.tabSizeX, maybe make resizer for tabs later
-	Background.Tabs.Size = UDim2.new(0, Library.tabSizeX, 1, 0)
 	if _G.tabSizeX then
+		Background.Tabs.Size = UDim2.new(0, 72, 1, 0)
 		Background.Pages.Size = UDim2.new(1, -72, 1, 0)
 	else
+		Background.Tabs.Size = UDim2.new(0, Library.tabSizeX, 1, 0)
 		Background.Pages.Size = UDim2.new(1, -Library.tabSizeX, 1, 0)
 	end
 	local ScrollingFrame = Background.Tabs.Frame.ScrollingFrame
