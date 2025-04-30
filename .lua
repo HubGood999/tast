@@ -326,10 +326,8 @@ function Library:createTab(options: table)
         while task.wait() do
             pcall(function()
 				if _G.tabSizeX then
-					repeat task.wait(0.1)
-						Background.Tabs.Size = UDim2.new(0, 72, 1, 0)
-						Background.Pages.Size = UDim2.new(1, -72, 1, 0)
-					until not _G.tabSizeX
+					Background.Tabs.Size = UDim2.new(0, 72, 1, 0)
+					Background.Pages.Size = UDim2.new(1, -72, 1, 0)
 				else
 					Background.Tabs.Size = UDim2.new(0, Library.tabSizeX, 1, 0)
 					Background.Pages.Size = UDim2.new(1, -Library.tabSizeX, 1, 0)
