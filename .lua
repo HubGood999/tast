@@ -62,7 +62,7 @@ local Modules = {
 }
 
 local Utility = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Utility", true))()
-local Theme = loadstring(game:HttpGetAsync("https://pastebin.com/raw/v4NYYnwF", true))()
+local Theme = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/HubGood999/tast/refs/heads/main/Theme", true))()
 Library.Theme = Theme
 
 local Popups = ScreenGui.Popups
